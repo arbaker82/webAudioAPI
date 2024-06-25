@@ -1,43 +1,39 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: #e10935;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .piano {
-    display: flex;
-  }
-  
-  .key {
-    height: calc(var(--width) * 4);
-    width: var(--width);
-  }
-  
-  .white {
-    --width: 100px;
-    background-color: white;
-    border: 1px solid #000000;
-  }
-  
-  .white.active {
-    background-color: #927b7b;
-  }
-  
-  .black {
-    --width: 60px;
-    background-color: black;
-    margin-left: calc(var(--width) / -2);
-    margin-right: calc(var(--width) / -2);
-    z-index: 2;
-  }
-  
-  .black.active {
-    background-color: #333;
-  }
+body {
+  background-color: #00459fed;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piano {
+  display: flex;
+}
+
+.key {
+  height: calc(var(--width) * 4);
+  width: var(--width);
+}
+
+.white {
+  --width: 100px;
+  background-color: rgb(6, 6, 6);
+  border: 1px solid #ffffff;
+}
+
+.white.active {
+  background-color: #927b7b;
+}
+
+.black {
+  --width: 60px;
+  background-color: rgb(255, 255, 255);
+  margin-left: calc(var(--width) / -2);
+  margin-right: calc(var(--width) / -2);
+  z-index: 2;
+}
+
+.black.active {
+  background-color: #836767;
+}ß
