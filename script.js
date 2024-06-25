@@ -1,44 +1,30 @@
-let synth, reverb;
+const WHITE_KEYS = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+const BLACK_KEYS = ['s', 'd', 'g', 'h', 'j']
 
-function preload(){
-    synth = new Tone.Synth({
-        oscillator: {
-            type: "pwm",
-        },
-    });
+const keys = document.querySelectorAll('.key')
+const whiteKeys = document.querySelectorAll('.key.white')
+const blackKeys = document.querySelectorAll('.key.black')
 
-    reverb = new Tone.JCReverb(0.5);
-}
+keys.forEach(key => {
+  key.addEventListener('click', () => playNote(key))
+})
 
-function setup() {
-    createCanvas(400, 400);
-    synth.chain(reverb, Tone.Destination);
+document.addEventListener('keydown', e => {
+  if (e.repeat) return
+  const key = e.key
+  const whiteKeyIndex = WHITE_KEYS.indexOf(key)
+  const blackKeyIndex = BLACK_KEYS.indexOf(key)
 
-    let buttonA4 = createButton('A4');
-    buttonA4.position(100, 100);
-    buttonA4.mousePressed(playA4);
+  if (whiteKeyIndex > -1) playNote(whiteKeys[whiteKeyIndex])
+  if (blackKeyIndex > -1) playNote(blackKeys[blackKeyIndex])
+})
 
-    let buttonB4 = createButton('B4');
-    buttonB4.position(200, 100);
-    buttonB4.mousePressed(playB4);
-
-    let buttonE5 = createButton('E5');
-    buttonE5.position(300, 100);
-    buttonE5.mousePressed(playE5);
-}
-
-function draw() {
-    background(220);
-}
-
-function playA4() {
-    synth.triggerAttackRelease("A4", 0.5);
-}
-
-function playB4() {
-    synth.triggerAttackRelease("B4", 0.5);
-}
-
-function playE5() {
-    synth.triggerAttackRelease("E5", 0.5);
+function playNote(key) {
+  const noteAudio = document.getElementById(key.dataset.note)
+  noteAudio.currentTime = 0
+  noteAudio.play()
+  key.classList.add('active')
+  noteAudio.addEventListener('ended', () => {
+    key.classList.remove('active')
+  })
 }
