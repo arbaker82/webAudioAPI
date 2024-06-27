@@ -1,30 +1,54 @@
-const WHITE_KEYS = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
-const BLACK_KEYS = ['s', 'd', 'g', 'h', 'j']
+let midiPlayer = null;
+let isPlaying = false;
 
-const keys = document.querySelectorAll('.key')
-const whiteKeys = document.querySelectorAll('.key.white')
-const blackKeys = document.querySelectorAll('.key.black')
-
-keys.forEach(key => {
-  key.addEventListener('click', () => playNote(key))
-})
-
-document.addEventListener('keydown', e => {
-  if (e.repeat) return
-  const key = e.key
-  const whiteKeyIndex = WHITE_KEYS.indexOf(key)
-  const blackKeyIndex = BLACK_KEYS.indexOf(key)
-
-  if (whiteKeyIndex > -1) playNote(whiteKeys[whiteKeyIndex])
-  if (blackKeyIndex > -1) playNote(blackKeys[blackKeyIndex])
-})
-
-function playNote(key) {
-  const noteAudio = document.getElementById(key.dataset.note)
-  noteAudio.currentTime = 0
-  noteAudio.play()
-  key.classList.add('active')
-  noteAudio.addEventListener('ended', () => {
-    key.classList.remove('active')
-  })
+// Function to handle file selection
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const midiData = new Uint8Array(e.target.result);
+            playMidi(midiData);
+        };
+        reader.readAsArrayBuffer(file);
+    }
 }
+
+// Function to play MIDI file
+function playMidi(midiData) {
+    if (midiPlayer) {
+        midiPlayer.stop();
+    }
+    midiPlayer = new Tone.Midi().load(midiData, () => {
+        midiPlayer.start();
+        isPlaying = true;
+    });
+}
+
+// Function to stop MIDI playback
+function stopMidi() {
+    if (midiPlayer) {
+        midiPlayer.stop();
+        isPlaying = false;
+    }
+}
+
+// Event listeners
+const fileInput = document.getElementById('file-input');
+fileInput.addEventListener('change', handleFileSelect);
+
+const playBtn = document.getElementById('play-btn');
+playBtn.addEventListener('click', () => {
+    if (!isPlaying && midiPlayer) {
+        midiPlayer.start();
+        isPlaying = true;
+    }
+});
+
+const stopBtn = document.getElementById('stop-btn');
+stopBtn.addEventListener('click', () => {
+    if (isPlaying && midiPlayer) {
+        midiPlayer.stop();
+        isPlaying = false;
+    }
+});

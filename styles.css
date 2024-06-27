@@ -1,39 +1,20 @@
 body {
-  background-color: #00459fed;
-  margin: 0;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-.piano {
-  display: flex;
+.midi-player {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.key {
-  height: calc(var(--width) * 4);
-  width: var(--width);
+button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
-
-.white {
-  --width: 100px;
-  background-color: rgb(6, 6, 6);
-  border: 1px solid #ffffff;
-}
-
-.white.active {
-  background-color: #927b7b;
-}
-
-.black {
-  --width: 60px;
-  background-color: rgb(255, 255, 255);
-  margin-left: calc(var(--width) / -2);
-  margin-right: calc(var(--width) / -2);
-  z-index: 2;
-}
-
-.black.active {
-  background-color: #836767;
-}ß
